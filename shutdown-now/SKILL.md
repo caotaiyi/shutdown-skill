@@ -1,14 +1,18 @@
 ---
 name: shutdown-now
-description: Immediately shut down the current Windows or macOS host on explicit request.
+description: Save the current project, then shut down Windows/macOS when asked to 关机 or via $shutdown-now.
 ---
 
-Require actual shutdown authorization; editing/discussion is not authorization. Briefly warn of unsaved-data loss. Use the execution host's OS from context; run once without reconfirmation, preflight, polling, or retries.
+Explicit shutdown requests or standalone `$shutdown-now` authorize execution; editing/discussion does not.
+
+Save the current project, if any, using available file/editor tools; finish active writes. Reuse confirmed saved state. If saving cannot be confirmed, stop. No commits/pushes.
+
+Briefly report saving and warn other unsaved apps may lose data. Run once for the execution host's OS from context. No reconfirmation, broad scans, polling, or retries.
 
 Windows (PowerShell):
 
 ```powershell
-& "$env:SystemRoot\System32\shutdown.exe" /s /f /t 0
+& "$env:SystemRoot\System32\shutdown.exe" /s /t 0
 ```
 
 macOS:

@@ -9,10 +9,12 @@
 装好后，跟 agent 说：
 
 ```text
-$shutdown-now 立即关机，允许丢弃未保存内容。
+关机
 ```
 
-它提醒一句，然后执行关机命令。
+也可以只输入 `$shutdown-now`，不用再补一句“立即关机”或“允许丢弃未保存内容”。自然语言调用需要 agent 支持自动选择 skill。
+
+它会先保存当前项目，再关机。已经确认保存的文件不用重存；有项目内容没法保存或无法确认保存，就停下来报错。保存不包括 git commit、push 或部署。
 
 远程用的话，skill 和 agent 都要在远程电脑上。在哪台电脑执行，就关哪台。连接断了是正常的。
 
@@ -42,21 +44,22 @@ mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
 cp -R shutdown-now "${CODEX_HOME:-$HOME/.codex}/skills/"
 ```
 
-让 agent 刷新技能列表，必要时重新打开会话，再调用 `$shutdown-now`。
+让 agent 刷新技能列表，必要时重新打开会话，再说“关机”或调用 `$shutdown-now`。
 
 ## 命令
 
 | 系统 | 实际命令 | 要求 |
 | --- | --- | --- |
-| Windows | `shutdown.exe /s /f /t 0` | 当前账户具备关机权限 |
+| Windows | `shutdown.exe /s /t 0` | 当前账户具备关机权限 |
 | macOS | `sudo -n /sbin/shutdown -h now` | 当前执行环境具备可用的非交互 sudo 授权 |
 
 Mac 需要已有的 sudo 授权。`-n` 表示需要密码就直接报错，不等输入，也不会替你改权限。相关说明见 [Apple 文档](https://support.apple.com/guide/terminal/enter-administrator-commands-apd5b0b6259/mac)。
 
 ## 注意
 
-- 先保存文件。Windows 会强制关闭应用，Mac 也不会挨个问你要不要保存。
-- 这是立即关机，不等下载、编译或其他任务做完。
+- 保存范围是当前项目里 agent 能访问的文件和编辑器内容。其他应用里的未保存内容要自己处理，尤其是 Mac。
+- Windows 默认不强制关闭应用，所以应用可能挡住关机。
+- 等当前项目正在写入的内容保存好就关机，不等其他下载、编译任务完成。
 - 安装和讨论 skill 不会触发关机，要明确要求关机才执行。
 - 指令短不代表零 token，具体消耗没测。自己敲命令当然更省。
 - 做过格式和命令语法检查，没有执行关机测试。Mac 还没真机测过。

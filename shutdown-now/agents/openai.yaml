@@ -1,4 +1,4 @@
 interface:
-  display_name: "立即关机"
-  short_description: "一条命令立即关闭 Windows 或 Mac 电脑，优先保证速度"
-  default_prompt: "使用 $shutdown-now，立即关闭这台电脑，允许强制关闭应用。"
+  display_name: "保存项目并关机"
+  short_description: "说关机即可，先保存当前项目，再关闭 Windows 或 Mac 电脑"
+  default_prompt: "$shutdown-now"
