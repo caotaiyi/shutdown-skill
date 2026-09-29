@@ -1,6 +1,5 @@
 # shutdown skill
-
-给关机写了个 skill。
+纯熟整活。
 
 远程用完电脑，顺手让 agent 关掉。支持 Windows 和 Mac，指令尽量写短，能少花点 token 就少花点。
 
